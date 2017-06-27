@@ -1,0 +1,193 @@
+﻿<Window x:Name="mangaDetailWindow" x:Class="ShikiDesk.MangaDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ShikiDesk.ViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShikiDesk"
+        xmlns:lib="clr-namespace:ShikiApiLib;assembly=ShikiApiLib"
+        mc:Ignorable="d"
+        Title="Подробная информация"
+        Icon="/ShikiDesk;component/Resources/Images/ico/shiki_icon_lYD_2.ico"
+        Background="#FFF8F8F8"
+        MinWidth="600" Width="750">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="0"
+                   Source="{Binding Poster}" 
+                   Width="150" Height="200" Margin="5,10" 
+                   StretchDirection="DownOnly" VerticalAlignment="Top"/>
+
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Button Command="{Binding GoToShiki}" Margin="5,1">Shikimori</Button>
+                <Button Command="{Binding GoToMAL}" Margin="5,1">MyAnimeList</Button>
+                <Button Command="{Binding AddNewTitle}" Margin="5,1" Visibility="{Binding NoInList, Converter={StaticResource BooleanToVisibilityConverter}}">Добавить в список</Button>
+            </StackPanel>
+            <StackPanel Grid.RowSpan="2" Grid.Column="1">
+                <Label FontSize="20" FontWeight="Bold" Padding="0, 0, -10, 0" 
+                       Content="{Binding MainName}" />
+                <Label FontSize="15" VerticalAlignment="Top" Padding="0,-10,0,0"
+                       Content="{Binding SecondName}" />
+                <Separator />
+                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300">
+                    <TextBlock Text="{Binding Description}" TextWrapping="WrapWithOverflow"/>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Grid HorizontalAlignment="Left" Width="250" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Grid.Row="0" Grid.ColumnSpan="2" Fill="Gray" />
+                <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Fill="#FFF8F8F8" />
+                <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Fill="Gray" />
+                <Rectangle Grid.Row="3" Grid.ColumnSpan="2" Fill="#FFF8F8F8" />
+                <Rectangle Grid.Row="4" Grid.ColumnSpan="2" Fill="Gray" />
+                <Rectangle Grid.Row="5" Grid.ColumnSpan="2" Fill="#FFF8F8F8" />
+                <Rectangle Grid.Row="6" Grid.ColumnSpan="2" Fill="Gray" />
+                <Rectangle Grid.Row="7" Grid.ColumnSpan="2" Fill="#FFF8F8F8" />
+                <Rectangle Grid.Row="8" Grid.ColumnSpan="2" Fill="Gray" />
+
+                <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Тип:</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Kind}" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Главы:</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalChapters}" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Тома:</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding TotalVolumes}" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Статус:</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding TitleStatus}" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Жанры:</TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Genres}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+
+                <TextBlock Grid.Row="5" Grid.ColumnSpan="2" FontWeight="Bold" Margin="5,1" VerticalAlignment="Center">Названия</TextBlock>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" FontWeight="Bold" Margin="10,1" VerticalAlignment="Center">По-японски:</TextBlock>
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding JpNames}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" FontWeight="Bold" Margin="10,1" VerticalAlignment="Center">По-английски:</TextBlock>
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding EnNames}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" FontWeight="Bold" Margin="10,1" VerticalAlignment="Center">Прочие:</TextBlock>
+                <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding OtherNames}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+            </Grid>
+            <StackPanel Margin="10">
+                <TextBlock FontWeight="ExtraBold" FontSize="16">Оценки пользователей</TextBlock>
+                <Grid Margin="0,5,0,0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock   Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">10 |</TextBlock>
+                    <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[10]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[10]}"/>
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">9 |</TextBlock>
+                    <StackPanel  Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[9]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[9]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">8 |</TextBlock>
+                    <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[8]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[8]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">7 |</TextBlock>
+                    <StackPanel  Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[7]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[7]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">6 |</TextBlock>
+                    <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[6]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[6]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">5 |</TextBlock>
+                    <StackPanel  Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[5]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[5]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">4 |</TextBlock>
+                    <StackPanel  Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[4]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[4]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">3 |</TextBlock>
+                    <StackPanel  Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[3]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[3]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">2 |</TextBlock>
+                    <StackPanel  Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[2]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[2]}" />
+                    </StackPanel>
+
+                    <TextBlock   Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Margin="2,0">1 |</TextBlock>
+                    <StackPanel  Grid.Row="9" Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle Width="{Binding ScoreStatProc[1]}" Height="15" Fill="#4682B4" Margin="1"/>
+                        <TextBlock Margin="2,0" Text="{Binding ScoreStat[1]}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+﻿<Window x:Class="ShikiDesk.AutorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ShikiDesk.ViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShikiDesk"
+        mc:Ignorable="d"
+        Title="Авторизация" 
+        ResizeMode="NoResize" 
+        SizeToContent="WidthAndHeight" 
+        Background="Transparent" 
+        MouseLeftButtonDown="Window_MouseLeftButtonDown" 
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border BorderBrush="Black" CornerRadius="10,10,10,10" >
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#f3f3f3" Offset="0"></GradientStop>
+                <GradientStop Color="#f3f3f3" Offset="1"></GradientStop>
+            </LinearGradientBrush>
+        </Border.Background>
+        <DockPanel>
+            <StackPanel Background="Gray" DockPanel.Dock="Top" Height="30">
+                <Label FontSize="16" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold">Авторизация</Label>
+            </StackPanel>
+            <StackPanel Margin="50,10,50,20" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0">Логин</Label>
+                    <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="5" Name="nicknameTextBox" Text="{Binding Nickname}" />
+
+                    <Label Grid.Row="1" Grid.Column="0">Пароль</Label>
+                    <PasswordBox Grid.Row="1" Grid.Column="1" Width="150" Margin="5" Name="passwordPBox" />
+                </Grid>
+                <CheckBox Margin="5" Name="savePassCheckBox" IsChecked="{Binding SavePassword}">Запомнить пароль</CheckBox>
+                <Label Name="errorLabel" Foreground="Red" Content="{Binding ErrorString}"></Label>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Margin="0,5,5,5" Padding="10,1" Name="loginButton" Command="{Binding TryLogin}" IsDefault="True">Войти</Button>
+                    <Button Margin="0,5" Padding="10,1" Name="exitAppButton" Click="exitAppButton_Click" IsCancel="True">Выход</Button>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </Border>
+</Window>

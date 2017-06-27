@@ -1,0 +1,158 @@
+﻿<Window x:Class="ShikiDesk.AddNewAnimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ShikiDesk.Controls"
+        mc:Ignorable="d"
+        Title="Поиск аниме"
+        Icon="/ShikiDesk;component/Resources/Images/ico/shiki_icon_lYD_2.ico"
+        Background="#FFF8F8F8"
+        Width="750" MinWidth="750">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" MinWidth="155" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,5,5,5" 
+                    Command="{Binding Search}" IsDefault="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Path Data="{Binding Data, Source={StaticResource SearchIcon2}}" Fill="Black" Margin="2"/>
+                    <TextBlock Margin="3,2" FontSize="20" FontFamily="Calibri" FontWeight="Bold">Поиск</TextBlock>
+                </StackPanel>
+            </Button>
+            <TextBox Text="{Binding SearchText}" Margin="5,5,3,5" Padding="5,3,2,2" FontSize="15" />
+        </DockPanel>
+
+        <ListView Grid.Row="1" Grid.Column="0"
+                  ItemsSource="{Binding SearchResult}" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" 
+                  Background="#FFF8F8F8">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <controls:AnimeShortInfoControl />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1" 
+                      VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" 
+                      Margin="5,0">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock HorizontalAlignment="Center" FontSize="14" FontFamily="Segoe UI Black" Margin="5">Фильтры</TextBlock>
+                    <Separator />
+                </StackPanel>
+
+                <Expander Grid.Row="1" IsExpanded="True">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Основное</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <CheckBox IsChecked="{Binding Censored}" Margin="2">Цензура</CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="4,0">Оценка:</TextBlock>
+                            <Slider Maximum="9" Minimum="0" Value="{Binding TitleScore}" ToolTip="Оценка" Width="90" AutoToolTipPlacement="TopLeft"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="2">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Статус</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <CheckBox IsChecked="{Binding TitleStatus[anons].Value}" Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}">Анонсировано</CheckBox>
+                        <CheckBox IsChecked="{Binding TitleStatus[ongoing].Value}" Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}">Сейчас выходит</CheckBox>
+                        <CheckBox IsChecked="{Binding TitleStatus[released].Value}" Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}">Вышедшее</CheckBox>
+                        <CheckBox IsChecked="{Binding TitleStatus[latest].Value}" Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}">Недавно вышедшее</CheckBox>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="3">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Тип</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[tv].Value}">TV Сериал</CheckBox>
+                        <CheckBox Margin="20,2,2,2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[tv_13].Value}">Короткий</CheckBox>
+                        <CheckBox Margin="20,2,2,2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[tv_24].Value}">Средний</CheckBox>
+                        <CheckBox Margin="20,2,2,2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[tv_48].Value}">Длинный</CheckBox>
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[movie].Value}">Фильм</CheckBox>
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[ova].Value}">OVA</CheckBox>
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[ona].Value}">ONA</CheckBox>
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[special].Value}">Спэшл</CheckBox>
+                        <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" IsChecked="{Binding Kind[music].Value}">Клип</CheckBox>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="4">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Сортировка</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <RadioButton Margin="2" GroupName="SortButtons" IsChecked="{Binding Order[ranked].Value}">По рейтингу</RadioButton>
+                        <RadioButton Margin="2" GroupName="SortButtons" IsChecked="{Binding Order[popularity].Value}">По популярности</RadioButton>
+                        <RadioButton Margin="2" GroupName="SortButtons" IsChecked="{Binding Order[name].Value}">По алфавиту</RadioButton>
+                        <RadioButton Margin="2" GroupName="SortButtons" IsChecked="{Binding Order[aired_on].Value}">По дате выхода</RadioButton>
+                        <RadioButton Margin="2" GroupName="SortButtons" IsChecked="{Binding Order[id].Value}">По ID</RadioButton>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="5">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Жанры</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <ItemsControl ItemsSource="{Binding Genre, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" 
+                                              IsChecked="{Binding Value.Value}" 
+                                              Content="{Binding Key, Converter={StaticResource GenreIdToRussianConverter}}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="6">
+                    <Expander.Header>
+                        <TextBlock FontSize="14" FontFamily="Segoe UI Black">Студия</TextBlock>
+                    </Expander.Header>
+                    <StackPanel Margin="5,0,0,0">
+                        <ItemsControl ItemsSource="{Binding Studio, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Margin="2" IsThreeState="True" Style="{StaticResource CustomCheckBoxStyle}" 
+							  IsChecked="{Binding Value.Value}" 
+							  Content="{Binding Key, Converter={StaticResource StudioIdToNameConverter}}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Expander>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Window>

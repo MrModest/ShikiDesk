@@ -1,0 +1,45 @@
+﻿<Window x:Class="ShikiDesk.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ShikiDesk.ViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShikiDesk"
+        xmlns:controls="clr-namespace:ShikiDesk.Controls"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        Title="{Binding Mode.Title}" 
+        Width="500" Height="600"
+        MinWidth="450" MinHeight="500"
+        Name="mainWindow" 
+        Icon="/ShikiDesk;component/Resources/Images/ico/shiki_icon_lYD_2.ico" 
+        Background="#FFF8F8F8"
+        Closing="mainWindow_Closing"
+        Deactivated="mainWindow_Deactivated">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Padding="3">
+            <MenuItem Header="Меню">
+                <MenuItem Header="Настройки" Icon="{StaticResource SettingsIcon}" />
+                <Separator />
+                <MenuItem Header="Выход" Icon="{StaticResource ExitAppIcon}" Click="ExitButton_Click"/>
+            </MenuItem>
+            <MenuItem Header="Аниме" Name="animeMenuItem" Command="{Binding Mode.SwitchToAnimeMode}" IsEnabled="{Binding Mode.AnimeIsEnable}" />
+            <MenuItem Header="Манга" Name="mangaMenuItem" Command="{Binding Mode.SwitchToMangaMode}" IsEnabled="{Binding Mode.MangaIsEnable}" />
+            <MenuItem Header="О Программе (Сбрасывает пароль)" Name="aboutMenuItem" Click="aboutMenuItem_Click" />
+        </Menu>
+        <tb:TaskbarIcon IconSource="/ShikiDesk;component/Resources/Images/ico/shiki_icon_lYD_2.ico"
+                        ToolTipText="ShikiDesk"
+                        TrayMouseDoubleClick="ShowWindow">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Показать окно" Click="ShowWindow"/>
+                    <MenuItem Header="Выход" Click="ExitButton_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <!-- User Control -->
+        <controls:AnimeControl Visibility="{Binding Mode.AnimeVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" />
+        <controls:MangaControl Visibility="{Binding Mode.MangaVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" />
+    </DockPanel>
+</Window>
